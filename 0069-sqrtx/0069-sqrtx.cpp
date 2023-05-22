@@ -1,12 +1,12 @@
 class Solution {
 public:
-    long long int mySqrt(int x) {
+    long  int mySqrt(int x) {
         int start = 0;
         int end   = x;
         
-        long long int ans = -1;
-        long long int mid = start + (end - start) / 2;
-        long long int square;
+        long  int ans = -1;
+        long  int mid = start + (end - start) / 2;
+        long  int square;
         
         while (start <= end) {
             square = mid * mid;
