@@ -19,7 +19,7 @@ public:
                 row++;
             }
             else {
-                // because  we won't find any value greater than the value columns after that
+                // because  we won't find any value smallter than the value columns after that
                 col--;
             }
         }
