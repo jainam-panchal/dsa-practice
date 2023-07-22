@@ -13,6 +13,7 @@ public:
         
         for(int i=1; i<=32 ; i++) {
             
+            // if current bit is set
             if(findKthBitSet(A,i)){
                 // change curresponding bit in ans
                 ans = 1 << (32-i) | ans;
