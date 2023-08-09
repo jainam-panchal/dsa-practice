@@ -5,7 +5,6 @@ public:
         int n = num.size();
         int index=-1;
         
-        //
         for(int i=n-1 ; i>=0 ; i--) {
             int value = num[i] - '0';
             if(value % 2 != 0) {
@@ -14,10 +13,10 @@ public:
             }
         }
         
-        if(index == -1) {
-            return "";
+        string ans = "";
+        for(int i=0 ; i<=index ; i++) {
+            ans += num[i];
         }
-        return num.substr(0,index+1);
-
+        return ans;
     }
 };
