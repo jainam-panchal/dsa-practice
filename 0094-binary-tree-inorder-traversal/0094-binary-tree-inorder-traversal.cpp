@@ -9,19 +9,42 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-private:
-    void func(TreeNode* root, vector<int> &ans) {
-        if(root == nullptr) return;
-        func(root->left,ans);
-        ans.push_back(root->val);
-        func(root->right,ans);    
-    }
-    
+class Solution
+{
 public:
-    vector<int> inorderTraversal(TreeNode* root) {
+    vector<int> inorderTraversal(TreeNode *root)
+    {
+        // declare the ans vector
         vector<int> ans;
-        func(root, ans);
+        if (root == NULL)
+            return ans;
+
+        stack<TreeNode*> st;
+        TreeNode* node = root;
+        
+        while(true) {
+            if(node != NULL)
+            {
+                // add it to the stack
+                st.push(node);
+                // move to the left 
+                node = node->left;
+            }
+            else {
+                
+                // no element to consider
+                if(st.empty() == true) break;                
+                
+                // now add root element
+                node = st.top();
+                st.pop();
+                ans.push_back(node->val);
+                
+                // move to the right part
+                node = node->right;
+            }
+        }
+        
         return ans;
     }
 };
