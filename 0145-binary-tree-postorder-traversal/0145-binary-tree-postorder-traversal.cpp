@@ -10,17 +10,36 @@
  * };
  */
 class Solution {
-private:
-    void func(TreeNode* root, vector<int> &ans) {
-        if(root == nullptr) return;
-        func(root->left, ans);
-        func(root->right, ans);
-        ans.push_back(root->val);
-    }
 public:
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> ans;
-        func(root, ans);
+        if(root == NULL) return ans;
+        
+        // st1 to traverse and st2 to store sequence
+        stack<TreeNode*> st1, st2;
+        st1.push(root);
+        
+        while(!st1.empty())
+        {   
+            // update root
+            root = st1.top();
+            st1.pop();
+            // add it to the considered stack
+            st2.push(root);
+            
+            // insert left and right
+            if(root->left != NULL) st1.push(root->left );
+            if(root->right != NULL) st1.push(root->right );
+        }
+        
+        
+        // get all elements
+        while(!st2.empty())
+        {
+            auto ele = st2.top();
+            ans.push_back(ele->val);
+            st2.pop();
+        }
         return ans;
     }
 };
