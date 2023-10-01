@@ -11,31 +11,25 @@
  */
 class Solution {
 private:
-    int findHeight(TreeNode* root)
+    int check(TreeNode* node)
     {
-        if(root == NULL) 
-            return 0;
+        if(node == NULL) return 0;
         
-        return 1 + max(findHeight(root->left) , findHeight(root->right));
+        int leftH = check(node->left);
+        if(leftH == -1) return -1;
+        
+        int rightH = check(node->right);
+        if(rightH == -1) return -1;
+        
+        if(abs(leftH - rightH) > 1) return -1;
+        else {
+            return max(leftH, rightH) + 1;
+        }
     }
     
-    
 public:
-    bool isBalanced(TreeNode* root) {
-        
-        if(root == NULL) return true;
-        
-        int leftH = findHeight(root->left);
-        int rightH = findHeight(root->right);
-        
-        // balanced tree = (leftDepth - rightDepth) <= 1
-        int def = abs(leftH - rightH);
-
-        // check current node and then move forward to check left, right
-        if(def <= 1 && isBalanced(root->left) && isBalanced(root->right))
-            return true;
-        else 
-            return false;
-        
+    bool isBalanced(TreeNode* root) 
+    {
+        return check(root) != -1;
     }
 };
