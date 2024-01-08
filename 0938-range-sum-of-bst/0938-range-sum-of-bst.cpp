@@ -10,23 +10,25 @@
  * };
  */
 class Solution {
-private:
-    void inorderF(TreeNode* root, int low , int end, int& ans) {
-        if(root == nullptr)    
-            return;
-        
-        inorderF(root->left , low , end , ans);
-        if((root->val >= low) && (root->val <= end))
-            ans += root->val;
-        inorderF(root->right, low , end , ans);
-    }
-    
 public:
     int rangeSumBST(TreeNode* root, int low, int high) {
+        if(root == nullptr)
+            return 0;
         
-        int ans = 0;
-        inorderF(root, low , high, ans);
+        if((root->val) >= low && (high >= root->val)) {
+            int left = rangeSumBST(root->left, low ,high);
+            int right =  rangeSumBST(root->right, low ,high);
+            return (root->val + left + right);
+        }
         
-        return ans;
+        if(root->val < low) {
+            return rangeSumBST(root->right, low , high);
+        }
+        
+        
+        return rangeSumBST(root->left, low , high);
+        
+        
+        
     }
 };
