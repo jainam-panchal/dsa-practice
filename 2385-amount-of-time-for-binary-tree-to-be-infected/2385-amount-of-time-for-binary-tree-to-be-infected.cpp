@@ -11,42 +11,11 @@
  */
 class Solution {
 public:
-    
     unordered_map<int, vector<int>> graph;
-    
-    int amountOfTime(TreeNode* root, int start) {
-        makeGraph(root);
-        
-        queue<int> q;
-        q.push(start);
-        
-        unordered_set<int> visited;
-        
-        int minPassed = -1;
-        
-        while(!q.empty()) {
-            minPassed++;
-            int n = q.size();
-            
-            for(int lvlSize = q.size() ; lvlSize > 0 ; --lvlSize) {
-                int currNode = q.front();
-                q.pop();
-                visited.insert(currNode);
-                
-                for(int adjNode : graph[currNode]) {
-                    if(!visited.count(adjNode)) {
-                        q.push(adjNode);
-                    }
-                }
-            }
-        }
-        
-        return minPassed;
-    }
-    
+
     void makeGraph(TreeNode* root) {
         if(root == NULL) return;
-        
+            
         if(root->left) {
             graph[root->val].push_back(root->left->val);
             graph[root->left->val].push_back(root->val);
@@ -59,5 +28,35 @@ public:
         
         makeGraph(root->left);
         makeGraph(root->right);
+    }
+    
+    
+    int amountOfTime(TreeNode* root, int start) {
+        
+        makeGraph(root);
+        unordered_set<int> visited;
+        queue<int> q;
+        q.push(start);
+        
+        int minTime = -1;
+        
+        while(!q.empty()) {
+            minTime++;
+            
+            for(int i=q.size(); i > 0  ; i--) {
+                int currNode = q.front();
+                q.pop();
+                visited.insert(currNode);
+                
+                for(int adj : graph[currNode]) {
+                    if(!visited.count(adj)) {
+                        q.push(adj);
+                    }
+                }
+            }
+        }
+        
+        return minTime;
+            
     }
 };
