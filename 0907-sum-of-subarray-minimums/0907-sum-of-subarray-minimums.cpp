@@ -12,15 +12,40 @@ public:
         vector<int> rightSmaller(n, n);
 
         // Calculate leftSmaller array using a stack
-        for (int i = 0; i < n; ++i) {
-            while (!st.empty() && arr[st.top()] > arr[i]) {
-                rightSmaller[st.top()] = i;
-                st.pop();
+        for(int i=0 ; i < n ; i++) {
+            if(st.empty()) {
+                leftSmaller[i] = -1;
+                st.push(i);
             }
-            leftSmaller[i] = st.empty() ? -1 : st.top();
-            st.push(i);
+            else {
+                while(!st.empty() && arr[st.top()] >= arr[i]) {
+                    st.pop();
+                }
+                if(st.empty()) leftSmaller[i] = -1;
+                else leftSmaller[i] = st.top();
+                st.push(i);
+            }
         }
+        
+        while (!st.empty()) st.pop();  // Clear the stack
 
+        // Calculate rightSmaller array using a stack
+        for(int j=arr.size()-1 ; j >= 0 ; j--) {
+            if(st.empty()) {
+                rightSmaller[j] = n;
+                st.push(j);
+            }
+            else {
+                while(!st.empty() && arr[st.top()] > arr[j]) {
+                    st.pop();
+                }
+                if(st.empty()) rightSmaller[j] = n;
+                else rightSmaller[j] = st.top();
+                st.push(j);
+            }
+        }
+        
+    
         // Calculate the sum    
         for (int i = 0; i < n; ++i) {
             long long leftCount = i - leftSmaller[i];
