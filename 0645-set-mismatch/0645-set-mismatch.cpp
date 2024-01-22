@@ -1,26 +1,30 @@
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {        
-        unordered_map<int, int> hash;
-        for(auto a : nums) {
-            if(hash.find(a) != hash.end())
-                hash[a]++;
-            else
-                hash[a] = 1;
+        
+        // using in-place array as hashmap
+        int duplicate = 0;
+        int miss = 0;
+        
+        for(int i = 0; i < nums.size(); i++) {
+            
+            int index = abs(nums[i]) - 1;
+            
+            // if it's already negative
+            if(nums[index] < 0)
+                duplicate = abs(nums[i]);
+            
+            // make that pos negative
+            nums[index] = -nums[index];
         }
         
-        int dup = 0;
-        int mis = 0;
-        
-        for(int i=1 ; i<=nums.size() ; i++) {
-            if(hash.find(i) != hash.end()) {
-                if(hash[i] == 2)
-                    dup = i;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] > 0 && (i + 1) != duplicate) {
+                miss = i + 1;
+                return {duplicate, miss};
             }
-            else
-                mis = i;
         }
         
-        return {dup ,mis};
+        return {duplicate, miss};
     }
 };
