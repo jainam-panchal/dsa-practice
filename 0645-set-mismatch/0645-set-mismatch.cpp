@@ -3,28 +3,28 @@ public:
     vector<int> findErrorNums(vector<int>& nums) {        
         
         // using in-place array as hashmap
-        int duplicate = 0;
-        int miss = 0;
+        // mapping 1 to n -> 0 to n-1
         
-        for(int i = 0; i < nums.size(); i++) {
-            
+        int dup = 0;
+        
+        for(int i=0 ; i<nums.size() ; i++) {
             int index = abs(nums[i]) - 1;
             
-            // if it's already negative
-            if(nums[index] < 0)
-                duplicate = abs(nums[i]);
-            
-            // make that pos negative
-            nums[index] = -nums[index];
-        }
-        
-        for(int i = 0; i < nums.size(); i++) {
-            if(nums[i] > 0 && (i + 1) != duplicate) {
-                miss = i + 1;
-                return {duplicate, miss};
+            if(nums[index] < 0) {
+                dup = index + 1;
             }
+            
+            nums[index] = - nums[index];
         }
         
-        return {duplicate, miss};
+        int miss = 0;
+        for(int i=0 ; i<nums.size() ; i++) {
+            if(nums[i] > 0 && (i+1) != dup) {
+                miss = i+1;
+                return {dup , miss};
+            }       
+        }
+        
+        return {dup , miss};
     }
 };
