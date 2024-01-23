@@ -1,5 +1,7 @@
 class Solution {
 private:
+    unordered_map<string,int> dp; 
+    
     bool hasDuplicate(string s1, string s2) {
         vector<int> hash(26, 0);
         
@@ -21,6 +23,9 @@ private:
         // base case
         if(i > n) return temp.length();
         
+        if(dp.find(temp) != dp.end())
+            return dp[temp];
+        
         int incl = 0;
         int excl = 0;
 
@@ -34,7 +39,7 @@ private:
             excl = solve(i+1, arr, temp, n);
         }
         
-        return max(incl,excl);
+        return dp[temp] = max(incl,excl);
     }
     
 public:
