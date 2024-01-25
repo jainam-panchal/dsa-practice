@@ -4,22 +4,25 @@ public:
         int m = text1.length();
         int n = text2.length();
         vector<vector<int>> memo(m + 1, vector<int>(n + 1, -1));
-        return lcsMemo(text1, text2, m, n, memo);
+        return lcsMemo(text1, text2, 0, 0, memo);
     }
 
 private:
-    int lcsMemo(string& text1, string& text2, int m, int n, vector<vector<int>>& memo) {
-        if (m == 0 || n == 0)
+    int lcsMemo(string& str1, string& str2, int m, int n, vector<vector<int>>& memo) {
+        if(m >= str1.size() || n >= str2.size()) {
             return 0;
-
-        if (memo[m][n] != -1)
+        }
+        
+        if(memo[m][n] != -1)
             return memo[m][n];
+        
+        if(str1[m] == str2[n])
+            return 1 + lcsMemo(str1, str2, m+1, n+1, memo);
+        
+        int first = lcsMemo(str1, str2, m+1 , n, memo);
+        int second = lcsMemo(str1, str2, m, n+1 , memo);
 
-        if (text1[m - 1] == text2[n - 1])
-            memo[m][n] = 1 + lcsMemo(text1, text2, m - 1, n - 1, memo);
-        else
-            memo[m][n] = max(lcsMemo(text1, text2, m - 1, n, memo), lcsMemo(text1, text2, m, n - 1, memo));
-
-        return memo[m][n];
+        return memo[m][n] = max(first,second);
+        
     }
 };
