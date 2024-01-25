@@ -4,25 +4,27 @@ public:
         int m = text1.length();
         int n = text2.length();
         vector<vector<int>> memo(m + 1, vector<int>(n + 1, -1));
-        return lcsMemo(text1, text2, 0, 0, memo);
-    }
-
-private:
-    int lcsMemo(string& str1, string& str2, int m, int n, vector<vector<int>>& memo) {
-        if(m >= str1.size() || n >= str2.size()) {
-            return 0;
+        
+        // fill up the first row and col
+        for(int i=0 ; i<memo.size() ; i++) {
+            memo[i][0] = 0;
+        }
+        for(int i=0 ; i<memo[0].size() ; i++) {
+            memo[0][i] = 0;
         }
         
-        if(memo[m][n] != -1)
-            return memo[m][n];
+        for(int i=1 ; i<m+1 ; i++) {
+            for(int j=1 ; j<n+1 ; j++) {
+                // if equal char
+                if(text1[i-1] == text2[j-1]) {
+                    memo[i][j] = 1 + memo[i-1][j-1];
+                }
+                else {
+                    memo[i][j] = max(memo[i-1][j], memo[i][j-1]);
+                }
+            }
+        }
         
-        if(str1[m] == str2[n])
-            return 1 + lcsMemo(str1, str2, m+1, n+1, memo);
-        
-        int first = lcsMemo(str1, str2, m+1 , n, memo);
-        int second = lcsMemo(str1, str2, m, n+1 , memo);
-
-        return memo[m][n] = max(first,second);
-        
+        return memo[m][n];
     }
 };
