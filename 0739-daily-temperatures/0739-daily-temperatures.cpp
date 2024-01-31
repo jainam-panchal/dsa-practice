@@ -1,26 +1,23 @@
 class Solution {
 public:
-    vector<int> dailyTemperatures(vector<int>& t) {
+    vector<int> dailyTemperatures(vector<int>& arr) {
         
-        vector<int> ans(t.size());
+        vector<int> ans(arr.size());
         stack<int> st;
+        int n = arr.size();
+        
+        for(int i=n-1 ; i >= 0 ; i--) {
             
-        for(int i=t.size()-1 ; i>=0 ; i--) {
-            
-            // find the perf position
-            while(!st.empty() && t[i] >= t[st.top()])
+            // try to find the greater ele in stack
+            while(!st.empty() && arr[i] >= arr[st.top()])
                 st.pop();
             
-            // no stack element :/
-            if(st.empty()) {
-                ans[i] = 0;
-            }
-            // we got the top
-            else {
-                ans[i] = st.top()-i;
-            }
+            // two poss -> we have an element or zero
+            if(st.empty()) ans[i] = 0;
+            else ans[i] = st.top() - i;
             
-            // push the curr element
+            
+            // add the curr element
             st.push(i);
         }
         
