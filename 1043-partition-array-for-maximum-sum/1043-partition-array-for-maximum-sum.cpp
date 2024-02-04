@@ -1,30 +1,29 @@
 class Solution {
-public:
-    int n;
-    int t[501];
-    int solve(vector<int>& arr, int idx, int k) {
-        if(idx >= n) {
+private:
+    int dp[501];
+    
+    int solve(vector<int> &arr , int i, int k) {
+        
+        if(i >= arr.size()){
             return 0;
         }
         
-        if(t[idx] != -1) {
-            return t[idx];
+        if(dp[i] != -1) return dp[i];
+        
+        int currMax = -1;
+        int result = -1;
+        
+        for(int j=i ; j<arr.size() && j-i+1 <= k ; j++) {
+            currMax = max(currMax, arr[j]);
+            result = max(result , currMax * (j-i+1) + solve(arr , j+1, k));
         }
         
-        int result = 0;
-        int curr_max = -1;
-        for(int i = idx; i < n && i-idx+1 <= k; i++) {
-            curr_max = max(curr_max, arr[i]);
-            
-            result = max(result, curr_max*(i-idx+1) + solve(arr, i+1, k));
-        }
+        return dp[i] = result;
         
-        return t[idx] = result;
     }
-    
+public:
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
-        n = arr.size();
-        memset(t, -1, sizeof(t));
-        return solve(arr, 0, k);
+            memset(dp, -1, sizeof(dp));
+            return solve(arr, 0 , k);
     }
 };
