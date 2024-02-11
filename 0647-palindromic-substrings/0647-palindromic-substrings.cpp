@@ -1,21 +1,30 @@
 class Solution {
 public:
-    int check(string &s, int i, int j){
-        int ans = 0;
-        while(i>=0 && j<s.length() && s[i]==s[j]){
-            ans++;
-            i--;
-            j++;
-        }
-        return ans;
+    bool checkPalindrome(string &s, int i, int j) {
+        if(i > j) return true;
+        
+        if(s[i] == s[j])
+            return checkPalindrome(s, i+1, j-1);
+        
+        return false;
     }
-
+    
     int countSubstrings(string s) {
-        int ans = 0;
-        for(int i=0; i<s.length(); i++){
-            ans += check(s, i, i);
-            ans += check(s, i, i+1);
+        
+        // BRUTEFORCE
+        // get all substrings
+        // check palindrome for every substring
+        
+        int count = 0;
+        int n = s.size();
+        
+        for(int i=0 ; i<n ; i++) {
+            for(int j=i ; j<n ; j++) {
+                if(checkPalindrome(s,i,j))
+                    count++;
+            }
         }
-        return ans;
+        
+        return count;
     }
 };
