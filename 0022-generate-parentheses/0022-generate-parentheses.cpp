@@ -1,29 +1,35 @@
 class Solution {
-    void solve(vector<string>& ans, string current, int open, int close) {
-
-        // base condition
+private:
+    void generate(vector<string> &ans , int open , int close, string curr) {
         if(open == 0 && close == 0) {
-            ans.push_back(current);
+            ans.push_back(curr);
             return;
         }
         
-        // only one choice, add one (
         if(open == close) {
-            solve(ans, current+'(', open-1, close);
+            generate(ans, open-1, close, curr+'(');
+            return;
         }
-        // two options, add ( or )
-        else if(open < close) {
+        
+        // two opt
+        else {
             if(open != 0)
-                solve(ans,current+'(', open-1, close);
-            solve(ans,current+')', open , close-1);
+                generate(ans, open-1, close, curr+'(');
+            generate(ans, open, close-1 , curr+')');
+            return;
         }
+
     }
     
 public:
     vector<string> generateParenthesis(int n) {
         vector<string> ans;
+        int open = n;
+        int close = n;
         
-        solve(ans, "", n , n);
+        string curr = "";
+        generate(ans, open, close, curr);
+        
         return ans;
     }
 };
