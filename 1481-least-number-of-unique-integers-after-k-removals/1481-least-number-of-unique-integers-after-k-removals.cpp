@@ -3,22 +3,27 @@ public:
     int findLeastNumOfUniqueInts(vector<int>& arr, int k) {
         unordered_map<int, int> freq;
 
-        for (int num : arr) {
+        for(int num : arr) {
             freq[num]++;
         }
-
-        priority_queue<int, vector<int>, greater<int>> pq;
         
-        for(auto it=freq.begin() ; it != freq.end() ; it++) {
-            pq.push(it->second);
+        // possibleFreq[i] shows how many elements have i freqency
+        int n = arr.size();
+        vector<int> possibleFreq(n+1, 0);
+        for(auto it : freq) {
+            possibleFreq[it.second]++;
         }
         
-        while(!pq.empty()) {
-            k -= pq.top();
-            if(k < 0) 
-                return pq.size();            
-            pq.pop();
-
+        int uniqueElements = freq.size();
+        
+        for(int currFreq=1 ; currFreq<=n ; currFreq++) {
+            int typesICanDelete = min(k/currFreq , possibleFreq[currFreq]);
+            k -= (typesICanDelete * currFreq);
+            uniqueElements -= typesICanDelete;
+            
+            if(k <= currFreq) {
+                return uniqueElements;
+            }
         }
         
         return 0;
