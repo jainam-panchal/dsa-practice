@@ -6,6 +6,7 @@ private:
         for(int i=0 ; i<50 ; i++) {
             sum += count[i];
             if(sum >= x) {
+                cout << "sum is " << sum << ", i==" << i << " i-50 = "<< i-50 << endl;
                 return i-50;
             }
         }
