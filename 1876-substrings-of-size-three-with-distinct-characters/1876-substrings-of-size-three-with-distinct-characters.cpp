@@ -1,13 +1,4 @@
 class Solution {
-private:
-    bool checkAllUnique(vector<int> &arr) {
-        for(auto val : arr) {
-            if(val > 1) return false;
-        }
-        
-        return true;
-    }
-    
 public:
     int countGoodSubstrings(string s) {
         
