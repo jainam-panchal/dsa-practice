@@ -5,7 +5,7 @@ public:
         int count = 0;
         for(auto curr : details) {
             int n = curr.size();
-            if(stoi(curr.substr(0, n-2).substr(11, 2)) > 60) {
+            if(stoi(curr.substr(11, 2)) > 60) {
                 count++;
             }
         } 
