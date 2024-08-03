@@ -1,0 +1,1 @@
+finding the window that contains the maximum 1's size of (total no of 1's)
