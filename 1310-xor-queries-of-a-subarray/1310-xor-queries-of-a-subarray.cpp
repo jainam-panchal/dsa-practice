@@ -2,20 +2,26 @@ class Solution {
 public:
     vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
         
-        vector<int> ans(queries.size());
+        int n = queries.size();
+        vector<int> ans(n), prefix(arr.size());
         
-        for(int i=0 ; i<queries.size() ; i++) {
+        prefix[0] = arr[0];
+        for(int i=1 ; i<arr.size() ; i++) {
+            prefix[i] = prefix[i-1] ^ arr[i];
+        }
+        
+        for(int i=0 ; i<n ; i++) {
+            
             int left = queries[i][0] , right = queries[i][1];
-            
-            int val = arr[left]; left++;
-            while(left <= right){
-                val = val ^ arr[left];  
-                left++;
+            if (left == 0) {
+                ans[i] = prefix[right];  // When left is 0, the answer is just prefix[right]
+            } else {
+                ans[i] = prefix[right] ^ prefix[left - 1];  // General case
             }
-            
-            ans[i] = val;
+
         }
         
         return ans;
+        
     }
 };
