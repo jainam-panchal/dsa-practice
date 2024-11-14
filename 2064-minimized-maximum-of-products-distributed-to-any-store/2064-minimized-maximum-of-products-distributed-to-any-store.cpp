@@ -5,7 +5,7 @@ private:
         int required = 0;
 
         for(int i = 0; i < quantities.size(); i++) {
-            required += (quantities[i] + cap - 1) / cap;  // Integer division that mimics ceiling
+            required += ceil((float)quantities[i] / (float)cap);
         }
 
         return required <= n;
