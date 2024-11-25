@@ -1,0 +1,1 @@
+Think of DFS. If found p and q return the node. find left and right recursively. return the node only if both left and right are not null. Hurray!
