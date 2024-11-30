@@ -1,19 +1,23 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        HashMap<Integer , Integer> hashMap = new HashMap<>();
         
-        for(int i=0 ; i<nums.length ; i++) {
-            hashMap.put(nums[i] , hashMap.getOrDefault(nums[i] , 0) + 1);
-        }
+        // Moore Voting Algo
         
-        int threshold = (nums.length / 2) + 1;
+        int candidate = -1  , count = 0;
         
-        for(HashMap.Entry<Integer , Integer> entry : hashMap.entrySet()) {
-            if(entry.getValue() >= threshold) {
-                return entry.getKey();
+        for(int ind = 0 ; ind<nums.length ; ind++) {
+            if(count == 0) {
+                candidate = nums[ind];
+                count = 1;
+            } else {
+                if(nums[ind] == candidate) {
+                    count++;
+                } else {
+                    count--;
+                }
             }
         }
         
-        return -1;
+        return candidate;
     }
 }
